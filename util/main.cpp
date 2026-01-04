@@ -48,7 +48,7 @@ auto strategy_4 = [](flip7::Player const * const p) -> bool {
 
 int main() {
 
-  size_t const n_games = 1000; // number of games to play
+  size_t const n_games = 1; // number of games to play
 
  // Add strategies here, each will be one player in the game
  // At the start of each game their order is shuffled.
@@ -62,13 +62,11 @@ int main() {
   // Some options to configure.
   // These do not change the final result, only how often the display updates.
   // Set all to false for fastest results, some to true to watch the game play out.
-  game.print_each_draw    = false;
+  game.print_each_draw    = true;
   game.print_each_round   = true;
   game.print_each_game    = false;
-  // Enable/disable 'press Enter to continue' after each step
-  game.confirm_each_draw  = false;
-  game.confirm_each_round = false;
-  game.confirm_each_game  = false;
+  // Enable/disable 'press Enter to continue' after each card draw (for debugging)
+  game.step_by_step       = true;
 
   // Run the games
   for (size_t i_game = 0; i_game < n_games; ++i_game)

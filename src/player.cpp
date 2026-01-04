@@ -6,8 +6,8 @@ namespace flip7 {
 
     std::cout
       << std::left
-      << std::setw(6) << id
-      << "| " << std::setw(7) << stats.n_wins
+      << std::setw(7) << id
+      << "| " << std::setw(12) << stats.n_wins
       << "| " << std::setw(16) << stats.n_rounds_scored
       << "| " << std::setw(16) << static_cast<float>(stats.avg_round_score_numerator) / static_cast<float>(stats.n_rounds)
       << "| " << std::setw(15) << static_cast<float>(stats.avg_game_score_numerator) / static_cast<float>(stats.n_games);

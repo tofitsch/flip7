@@ -13,12 +13,12 @@ namespace flip7 {
       << std::endl;
 
     static std::string const
-      line_short(67, '-'),
-      line_long(91, '-');
+      line_short(73, '-'),
+      line_long(97, '-');
 
     std::cout
       << "player"
-      << "| n_wins"
+      << " | n_games_won"
       << " | n_rounds_scored"
       << " | avg_round_score"
       << " | avg_game_score";
@@ -86,9 +86,6 @@ namespace flip7 {
       std::cout << std::endl;
 
       print();
-
-      if (confirm_each_game)
-        confirm();
 
     }
 
@@ -171,7 +168,7 @@ namespace flip7 {
 
           print();
 
-          if (confirm_each_draw)
+          if (step_by_step)
             confirm();
 
         }
@@ -187,9 +184,6 @@ namespace flip7 {
       std::cout << std::endl;
 
       print();
-
-      if (confirm_each_draw || confirm_each_round)
-        confirm();
 
     }
 

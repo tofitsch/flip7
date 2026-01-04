@@ -29,9 +29,7 @@ namespace flip7 {
         print_each_draw{false},
         print_each_round{false},
         print_each_game{false},
-        confirm_each_draw{false},
-        confirm_each_round{false},
-        confirm_each_game{false};
+        step_by_step{false};
 
     private:
 
