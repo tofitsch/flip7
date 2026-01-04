@@ -1,38 +1,64 @@
 #include "game.h"
 
 /*
- *** Instructions ***
+  *** Intro ***
 
- Any changes to game setup and player strategies should be made in this file.
+  This program allows to test out strategies for the game flip7.
 
- To ru the program first open a new terminal: File->New->Terminal (opens in new tab)
+  Strategies are defined as functions (explained further below) which can then be made to play against each other for a large number of games.
 
- in there type this to compile and run the program for the first time:
+  Statistics like number of games won, average score per round and per game etc are tracked throughout the process.
 
- cd build; cmake .. && make && ./x
+  *** Instructions ***
 
- Press Enter to start
+  Any changes to game setup and player strategies should be made in this file.
 
- Once the program finished running and presents the final results in a table, press Enter again to get back to the terminal.
+  If at any point you want to reset to the original state simply go to the original url again:
+  https://mybinder.org/v2/gh/tofitsch/flip7/master?urlpath=%2Flab%2Ftree%2Futil%2Fmain.cpp
 
- Then you can change something in this file again, save it, and back in the terminal tab type:
+  (anything you change here only changes for you, not for anyone else accessing this code)
 
- make && ./x
+  To run the program first open a new terminal: File->New->Terminal (opens in new tab).
 
- to run with the new configuration.
+  In there type this to compile and run the program for the first time:
 
- **** Play strategies ***
+  cd build; cmake .. && make && ./x
 
- Below are a few example strategies one can use to play against each other.
+  Press Enter to start
 
- A strategy is a set of rules based on which the player decides to continue (return true) or pass (return false) before each round.
- Define strategies here and add them as players further below.
+  Once the program finished running and the final results are presented, press Enter again to get back to the terminal.
 
- For the sake of simplicity any other decision like whom to give a freeze or flip7 are done the same (regardless of strategy): always to the player with the highest score in the current game, and the one with the highest number of points on their hand if there is a tie.
+  Then you can change something in this file again, save it, and back in the terminal tab type:
+
+  make && ./x
+
+  To run with the new configuration. 
+
+  Rinse and repeat.
+
+  **** Play strategies ***
+
+  Below are a few example strategies one can use to play against each other.
+
+  A strategy is a set of rules based on which the player decides to continue (return true) or pass (return false) before each round.
+  Define strategies here and add them as players further below.
+
+  For the sake of simplicity any other decision like whom to give a freeze or flip7 are done the same (regardless of strategy):
+  always to the player with the highest score in the current game, and the one with the highest number of points on their hand if there is a tie.
 */
 
-// t:20, w:0 (t stands for "threshold", w for "weight"))
+// t:25, w:0.5 (t stands for "threshold", w for "weight"))
 auto strategy_1 = [](flip7::Player const * const p) -> bool {
+
+  if (p->regular_points() + p->bonus_points() * .5 >= 25.)
+    return false;
+
+  return true;
+
+};
+
+// t:20
+auto strategy_2 = [](flip7::Player const * const p) -> bool {
 
   if (p->regular_points() >= 20.)
     return false;
@@ -41,20 +67,10 @@ auto strategy_1 = [](flip7::Player const * const p) -> bool {
 
 };
 
-// t:25,
-auto strategy_2 = [](flip7::Player const * const p) -> bool {
-
-  if (p->regular_points() >= 25.)
-    return false;
-
-  return true;
-
-};
-
-// t:25, w:0.5
+// t:25
 auto strategy_3 = [](flip7::Player const * const p) -> bool {
 
-  if (p->regular_points() + p->bonus_points() * .5 >= 25.)
+  if (p->regular_points() >= 25.)
     return false;
 
   return true;
@@ -77,10 +93,11 @@ int main() {
  // Add strategies here, each will be one player in the game
  // At the start of each game their order is shuffled.
  // Therefore it does not matter in which order they are defined.
+ // It only determines their naming (player 0, player 1, ...)
   flip7::Game engine {{
-    {strategy_1},
-    {strategy_2},
-    {strategy_3},
+    {strategy_1}, // player 0
+    {strategy_2}, // player 1
+    {strategy_3}, // ...
   }};
 
   // Some options to configure.
@@ -91,8 +108,6 @@ int main() {
   engine.print_each_game    = true;
   // Enable/disable 'press Enter to continue' after each card draw (for debugging)
   engine.step_by_step       = false;
-
-  // end of configuration (don't change anything below here)
 
   // Run the games
   for (size_t i_game = 0; i_game < n_games; ++i_game)
