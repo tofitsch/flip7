@@ -2,6 +2,7 @@
 
 #include <set>
 #include <assert.h>
+#include <ncurses.h>
 #include <functional>
 #include <iomanip>
 
@@ -21,7 +22,7 @@ namespace flip7 {
       Player(Strategy _strategy)
         : strategy(std::move(_strategy)) {}
 
-      void print(bool const print_each_draw = false) const;
+      int print(int row, bool const print_each_draw = false) const;
 
       void take(char const card);
 

@@ -1,47 +1,46 @@
 #include "game.h"
 
+#include <unistd.h>
+
+
 namespace flip7 {
 
-  void Game::print() const {
+  void Game::print(bool const debug_line, size_t const id, char const card) const {
 
     static std::string const
       line_short(83, '-'),
       line_long(107, '-');
 
-    std::cout 
-      << "game: "
-      << i_game
-      << " round: "
-      << i_round_this_game
-      << std::endl
-      << std::endl;
+    erase();
 
-    std::cout
-      << "player"
-      << " | n_games_won"
-      << " | n_rounds_scored"
-      << " | n_flip7"
-      << " | avg_round_score"
-      << " | avg_game_score";
+    int row{0};
 
-    if (print_each_draw)
-      std::cout
-        << " | status"
-        << " | score"
-        << " | hand"
-        << std::endl
-        << line_long
-        << std::endl;
+    if (debug_line)
+      mvprintw(row++, 0, "player %lu receives %s", id, g_card_names[card].c_str());
     else
-      std::cout
-        << std::endl
-        << line_short
-        << std::endl;
+      row++;
+
+    mvprintw(row++, 0, "game: %lu round: %lu", i_game, i_round_this_game);
+
+    row++;
+
+    mvprintw(row++, 0, "player | n_games_won | n_rounds_scored | n_flip7 | avg_round_score | avg_game_score");
+
+    if (print_each_draw) {
+
+      mvprintw(row++, 0, " | status | score | hand");
+
+      mvprintw(row++, 0, "%s", line_long.c_str());
+
+    } else
+      mvprintw(row++, 0, "%s", line_short.c_str());
 
     for (Player const& p : players)
-      p.print(print_each_draw);
+      row = p.print(row, print_each_draw);
 
-    std::cout << std::endl;
+    refresh();
+
+    usleep(50'000);
 
   }
 
@@ -80,15 +79,8 @@ namespace flip7 {
     for (Player & p : players)
       p.stats.avg_game_score_numerator += p.score;
  
-    if (print_each_game) {
-
-      system("clear");
-
-      std::cout << std::endl;
-
+    if (print_each_game)
       print();
-
-    }
 
   }
 
@@ -158,16 +150,7 @@ namespace flip7 {
 
         if (print_each_draw) {
 
-          system("clear");
-
-          std::cout
-            << "player "
-            << p->id
-            << " receives "
-            << g_card_names[card]
-            << std::endl;
-
-          print();
+          print(true, p->id, card);
 
           if (step_by_step)
             confirm();
@@ -178,15 +161,8 @@ namespace flip7 {
 
     }
 
-    if (print_each_draw || print_each_round) {
-
-      system("clear");
-
-      std::cout << std::endl;
-
+    if (print_each_draw || print_each_round)
       print();
-
-    }
 
   }
 

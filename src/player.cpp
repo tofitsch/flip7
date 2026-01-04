@@ -2,32 +2,44 @@
 
 namespace flip7 {
 
-  void Player::print(bool const print_each_draw) const {
+  int Player::print(int row, bool const print_each_draw) const {
 
-    std::cout
-      << std::left
-      << std::setw(7) << id
-      << "| " << std::setw(12) << stats.n_wins
-      << "| " << std::setw(16) << stats.n_rounds_scored
-      << "| " << std::setw(8) << stats.n_flip7
-      << "| " << std::setw(16) << static_cast<float>(stats.avg_round_score_numerator) / static_cast<float>(stats.n_rounds)
-      << "| " << std::setw(15) << static_cast<float>(stats.avg_game_score_numerator) / static_cast<float>(stats.n_games);
+    int col = 0;
 
-    if (print_each_draw)
-      std::cout
-        << std::left
-        << "| " << std::setw(7) << (is_active ? "in" : "out")
-        << "| " << std::setw(6) << score
-        << "| ";
+    mvprintw(
+      row, col,
+      "%-7lu| %-12zu| %-16zu| %-8zu| %-16.2f| %-15.2f",
+      id,
+      stats.n_wins,
+      stats.n_rounds_scored,
+      stats.n_flip7,
+      static_cast<float>(stats.avg_round_score_numerator) / static_cast<float>(stats.n_rounds),
+      static_cast<float>(stats.avg_game_score_numerator) / static_cast<float>(stats.n_games)
+    );
 
-    size_t ctr{0};
+    col += 7 + 1 + 13 + 1 + 17 + 1 + 9 + 1 + 17 + 1 + 16;
 
-    for (char const card : hand)
-      std::cout
-        << (ctr++ == 0 ? "" : " ")
-        << g_card_names[card];
+    if (print_each_draw) {
 
-    std::cout << std::endl;
+        mvprintw(row, col, "| %-7s| %-6lu| ", is_active ? "in" : "out", score);
+
+        col += 1 + 8 + 1 + 7 + 1 + 2;
+
+    }
+
+    bool first = true;
+
+    for (char const card : hand) {
+
+      mvprintw(row, col, "%s%s", first ? "" : " ", g_card_names[card].c_str());
+
+      col += (first ? 0 : 1) + g_card_names[card].length();
+
+      first = false;
+
+    }
+
+    return row + 1;
 
   }
 

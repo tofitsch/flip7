@@ -33,7 +33,7 @@ namespace flip7 {
 
     private:
 
-      void print() const;
+      void print(bool const debug_line = false, size_t const id = 0, char const card = 0) const;
 
       void play_round();
 

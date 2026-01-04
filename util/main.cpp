@@ -68,8 +68,19 @@ int main() {
   // Enable/disable 'press Enter to continue' after each card draw (for debugging)
   game.step_by_step       = false;
 
+  // ncurses setup
+  initscr();
+  cbreak();
+  noecho();
+  keypad(stdscr, TRUE);
+  curs_set(0);
+
   // Run the games
   for (size_t i_game = 0; i_game < n_games; ++i_game)
     game.play_game();
+
+  // ncurses cleanup
+  getch();
+  endwin();
   
 }
