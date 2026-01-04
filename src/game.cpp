@@ -4,6 +4,10 @@ namespace flip7 {
 
   void Game::print() const {
 
+    static std::string const
+      line_short(83, '-'),
+      line_long(107, '-');
+
     std::cout 
       << "game: "
       << i_game
@@ -12,14 +16,11 @@ namespace flip7 {
       << std::endl
       << std::endl;
 
-    static std::string const
-      line_short(73, '-'),
-      line_long(97, '-');
-
     std::cout
       << "player"
       << " | n_games_won"
       << " | n_rounds_scored"
+      << " | n_flip7"
       << " | avg_round_score"
       << " | avg_game_score";
 
@@ -244,6 +245,15 @@ namespace flip7 {
 
       if (! p->is_active)
         deactivate(p);
+      else if (p->n_regular_cards_on_hand() == 7) { // flip7
+
+        p->add_to_score(true);
+
+        for (Player & x : players)
+          if (x.is_active)
+            deactivate(& x);
+
+      }
 
     }
 

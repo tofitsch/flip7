@@ -9,6 +9,7 @@ namespace flip7 {
       << std::setw(7) << id
       << "| " << std::setw(12) << stats.n_wins
       << "| " << std::setw(16) << stats.n_rounds_scored
+      << "| " << std::setw(8) << stats.n_flip7
       << "| " << std::setw(16) << static_cast<float>(stats.avg_round_score_numerator) / static_cast<float>(stats.n_rounds)
       << "| " << std::setw(15) << static_cast<float>(stats.avg_game_score_numerator) / static_cast<float>(stats.n_games);
 
@@ -89,6 +90,18 @@ namespace flip7 {
 
   }
 
+  size_t Player::n_regular_cards_on_hand() const {
+
+    size_t n{0};
+
+    for (char const card : hand)
+      if (card <= 12)
+        ++n;
+
+    return n;
+
+  }
+
   size_t Player::get_hand_score() const {
 
     std::pair<size_t, size_t> hand_score = get_hand_score_pair();
@@ -97,9 +110,17 @@ namespace flip7 {
 
   }
 
-  void Player::add_to_score() {
+  void Player::add_to_score(bool const is_flip7) {
 
-    size_t const round_score = get_hand_score();
+    size_t round_score = get_hand_score();
+
+    if (is_flip7) {
+
+      round_score += 15;
+
+      ++stats.n_flip7;
+
+    }
 
     stats.avg_round_score_numerator += round_score;
 

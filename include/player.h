@@ -25,7 +25,7 @@ namespace flip7 {
 
       void take(char const card);
 
-      void add_to_score();
+      void add_to_score(bool const is_flip7 = false);
 
       std::pair<size_t, size_t> get_hand_score_pair() const;
 
@@ -36,6 +36,8 @@ namespace flip7 {
         {return get_hand_score_pair().second;}
 
       size_t get_hand_score() const;
+
+      size_t n_regular_cards_on_hand() const;
 
       std::set<char> hand;
 
