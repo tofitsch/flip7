@@ -5,7 +5,7 @@
 
 namespace flip7 {
 
-  void Game::print(bool const debug_line, size_t const id, char const card) const {
+  void Game::print(bool const debug_line, size_t const id, char const card) {
 
     static std::string const
       line_short(83, '-'),
@@ -13,7 +13,7 @@ namespace flip7 {
 
     erase();
 
-    int row{0};
+    row = 0;
 
     if (debug_line)
       mvprintw(row++, 0, "player %lu receives %s", id, g_card_names[card].c_str());

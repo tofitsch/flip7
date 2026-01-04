@@ -21,6 +21,25 @@ namespace flip7 {
 
         }
 
+        // ncurses setup
+        initscr();
+        cbreak();
+        noecho();
+        keypad(stdscr, TRUE);
+        curs_set(0);
+
+      }
+
+      ~Game() {
+
+        ++row;
+
+        mvprintw(row++, 0, "Finished. Press Enter to continue");
+
+        // ncurses cleanup
+        getch();
+        endwin();
+  
       }
 
       void play_game();
@@ -33,7 +52,7 @@ namespace flip7 {
 
     private:
 
-      void print(bool const debug_line = false, size_t const id = 0, char const card = 0) const;
+      void print(bool const debug_line = false, size_t const id = 0, char const card = 0);
 
       void play_round();
 
@@ -58,6 +77,8 @@ namespace flip7 {
         i_round{0},
         i_round_this_game{0},
         i_game{0};
+
+      int row{0};
 
       Deck deck;
 
