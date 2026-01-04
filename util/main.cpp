@@ -12,6 +12,9 @@
   *** Instructions ***
 
   Any changes to game setup and player strategies should be made in this file.
+  You can look at the rest of the code which actually runs the game by clicking through the files on the left, but they should not require changes by you.
+  You can also view it on github:
+  https://github.com/tofitsch/flip7
 
   If at any point you want to reset to the original state simply go to the original url again:
   https://mybinder.org/v2/gh/tofitsch/flip7/master?urlpath=%2Flab%2Ftree%2Futil%2Fmain.cpp
