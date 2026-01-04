@@ -1,6 +1,0 @@
-#!/bin/bash
-
-# Install C++ build tools and cmake
-
-apt-get update
-apt-get install -y cmake build-essential
