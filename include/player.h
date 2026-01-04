@@ -3,6 +3,7 @@
 #include <set>
 #include <assert.h>
 #include <functional>
+#include <iomanip>
 
 #include "stats.h"
 #include "deck.h"
@@ -20,7 +21,7 @@ namespace flip7 {
       Player(Strategy _strategy)
         : strategy(std::move(_strategy)) {}
 
-      void print() const;
+      void print(bool const print_each_draw = false) const;
 
       void take(char const card);
 

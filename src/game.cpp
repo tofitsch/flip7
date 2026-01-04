@@ -9,10 +9,38 @@ namespace flip7 {
       << i_game
       << " round: "
       << i_round_this_game
+      << std::endl
       << std::endl;
 
+    static std::string const
+      line_short(67, '-'),
+      line_long(91, '-');
+
+    std::cout
+      << "player"
+      << "| n_wins"
+      << " | n_rounds_scored"
+      << " | avg_round_score"
+      << " | avg_game_score";
+
+    if (print_each_draw)
+      std::cout
+        << " | status"
+        << " | score"
+        << " | hand"
+        << std::endl
+        << line_long
+        << std::endl;
+    else
+      std::cout
+        << std::endl
+        << line_short
+        << std::endl;
+
     for (Player const& p : players)
-      p.print();
+      p.print(print_each_draw);
+
+    std::cout << std::endl;
 
   }
 
@@ -108,7 +136,7 @@ namespace flip7 {
     while (n_active > 0) {
 
       for (Player & p : players) {
-        if (p.is_active) {
+        if (p.is_active && i_round_this_game > 1) {
 
           if (! p.strategy(& p)) {
 

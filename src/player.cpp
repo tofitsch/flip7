@@ -2,15 +2,22 @@
 
 namespace flip7 {
 
-  void Player::print() const {
+  void Player::print(bool const print_each_draw) const {
 
     std::cout
-      << " > player "
-      << id
-      << (is_active ? " (active)" : " (inactive)")
-      << "\t score: "
-      << score
-      << "\t hand: [";
+      << std::left
+      << std::setw(6) << id
+      << "| " << std::setw(7) << stats.n_wins
+      << "| " << std::setw(16) << stats.n_rounds_scored
+      << "| " << std::setw(16) << static_cast<float>(stats.avg_round_score_numerator) / static_cast<float>(stats.n_rounds)
+      << "| " << std::setw(15) << static_cast<float>(stats.avg_game_score_numerator) / static_cast<float>(stats.n_games);
+
+    if (print_each_draw)
+      std::cout
+        << std::left
+        << "| " << std::setw(7) << (is_active ? "in" : "out")
+        << "| " << std::setw(6) << score
+        << "| ";
 
     size_t ctr{0};
 
@@ -19,9 +26,7 @@ namespace flip7 {
         << (ctr++ == 0 ? "" : " ")
         << g_card_names[card];
 
-    std::cout 
-      << "]"
-      << std::endl;
+    std::cout << std::endl;
 
   }
 
